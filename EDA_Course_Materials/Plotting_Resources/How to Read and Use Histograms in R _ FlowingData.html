@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+ 
+<meta charset="utf-8">
+<title>How to Read and Use Histograms in R | FlowingData</title>
+<meta name="description" content="FlowingData">
+<meta name="author" content="Nathan Yau">
+<meta name="generator" content="WordPress 4.6"/>  
+<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7626174/696048/css/fonts.css"/>
+<link rel="stylesheet" href="http://flowingdata.com/wp-content/themes/fd-modern-5-4/style.css" type="text/css" media="screen"/>
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://flowingdata.com/feed"/>
+<link rel="pingback" href="http://flowingdata.com/xmlrpc.php"/>
+ 
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+ 
+<link rel="stylesheet" href="http://flowingdata.com/wp-content/themes/fd-modern-5-4/stylesheets/skeleton-2.css">
+<link rel="stylesheet" href="http://flowingdata.com/wp-content/themes/fd-modern-5-4/stylesheets/layout.css">
+<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+ 
+<link rel="shortcut icon" href="http://flowingdata.com/wp-content/themes/fd-modern-5-4/images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+<script type='text/javascript'>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+  (function() {
+    var gads = document.createElement('script');
+    gads.async = true;
+    gads.type = 'text/javascript';
+    var useSSL = 'https:' == document.location.protocol;
+    gads.src = (useSSL ? 'https:' : 'http:') +
+      '//www.googletagservices.com/tag/js/gpt.js';
+    var node = document.getElementsByTagName('script')[0];
+    node.parentNode.insertBefore(gads, node);
+  })();
+</script>
+<script type='text/javascript'>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/2462688/Bottom_Post', [300, 250], 'div-gpt-ad-1461948431098-0').addService(googletag.pubads());
+    googletag.defineSlot('/2462688/grid_bottom', [300, 250], 'div-gpt-ad-1461948431098-1').addService(googletag.pubads());
+    googletag.defineSlot('/2462688/grid_top', [300, 250], 'div-gpt-ad-1461948431098-2').addService(googletag.pubads());
+    googletag.defineSlot('/2462688/Sidebar_bottom', [300, 250], 'div-gpt-ad-1461948431098-3').addService(googletag.pubads());
+    googletag.defineSlot('/2462688/Sidebar_rectangle', [300, 250], 'div-gpt-ad-1461948431098-4').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.pubads().collapseEmptyDivs();
+    googletag.enableServices();
+  });
+</script>
+<link rel='dns-prefetch' href='//s0.wp.com'>
+<link rel='dns-prefetch' href='//s.w.org'>
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/flowingdata.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 .07em!important;vertical-align:-0.1em!important;background:none!important;padding:0!important;}</style>
+<link rel='stylesheet' id='yarppWidgetCss-css' href='http://flowingdata.com/wp-content/plugins/yet-another-related-posts-plugin/style/widget.css?ver=4.6' type='text/css' media='all'/>
+<link rel='stylesheet' id='advanced-responsive-video-embedder-css' href='http://flowingdata.com/wp-content/plugins/advanced-responsive-video-embedder/public/advanced-responsive-video-embedder-public.css?ver=6.5.0' type='text/css' media='all'/>
+<link rel='stylesheet' id='social-logos-css' href='http://flowingdata.com/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=1' type='text/css' media='all'/>
+<link rel='stylesheet' id='jetpack_css-css' href='http://flowingdata.com/wp-content/plugins/jetpack/css/jetpack.css?ver=4.2.2' type='text/css' media='all'/>
+<script type='text/javascript' src='http://flowingdata.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://flowingdata.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='http://flowingdata.com/wp-json/'/>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://flowingdata.com/xmlrpc.php?rsd"/>
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://flowingdata.com/wp-includes/wlwmanifest.xml"/>
+<link rel='prev' title='Job Board, February 2014' href='http://flowingdata.com/2014/02/26/job-board-february-2014/'/>
+<link rel='next' title='Why you should buy the bigger pizza' href='http://flowingdata.com/2014/02/28/why-you-should-buy-the-bigger-pizza/'/>
+<meta name="generator" content="WordPress 4.6"/>
+<link rel="canonical" href="http://flowingdata.com/2014/02/27/how-to-read-histograms-and-use-them-in-r/"/>
+<link rel='shortlink' href='http://flowingdata.com/?p=33969'/>
+<link rel="alternate" type="application/json+oembed" href="http://flowingdata.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fflowingdata.com%2F2014%2F02%2F27%2Fhow-to-read-histograms-and-use-them-in-r%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="http://flowingdata.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fflowingdata.com%2F2014%2F02%2F27%2Fhow-to-read-histograms-and-use-them-in-r%2F&#038;format=xml"/>
+<link rel='dns-prefetch' href='//v0.wordpress.com'>
+<link rel='dns-prefetch' href='//i0.wp.com'>
+<link rel='dns-prefetch' href='//i1.wp.com'>
+<link rel='dns-prefetch' href='//i2.wp.com'>
+<style type='text/css'>img#wpstats{display:none}</style>
+ 
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="How to Read and Use Histograms in R"/>
+<meta property="og:url" content="http://flowingdata.com/2014/02/27/how-to-read-histograms-and-use-them-in-r/"/>
+<meta property="og:description" content="The chart type often goes overlooked because people don&#8217;t understand them. Maybe this will help."/>
+<meta property="article:published_time" content="2014-02-27T12:59:24+00:00"/>
+<meta property="article:modified_time" content="2015-03-18T18:58:18+00:00"/>
+<meta property="og:site_name" content="FlowingData"/>
+<meta property="og:image" content="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/histogram-feature.png?fit=625%2C384"/>
+<meta property="og:image:width" content="625"/>
+<meta property="og:image:height" content="384"/>
+<meta property="og:locale" content="en_US"/>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<link rel="icon" href="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/10/logo-lone-square-600-5451c585_site_icon.png?fit=32%2C32" sizes="32x32"/>
+<link rel="icon" href="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/10/logo-lone-square-600-5451c585_site_icon.png?fit=192%2C192" sizes="192x192"/>
+<link rel="apple-touch-icon-precomposed" href="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/10/logo-lone-square-600-5451c585_site_icon.png?fit=180%2C180"/>
+<meta name="msapplication-TileImage" content="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/10/logo-lone-square-600-5451c585_site_icon.png?fit=270%2C270"/>
+<style id="custom-css-css">iframe.responsive{max-width:100%}p small{font-size:.8em;line-height:10px}table td{border:1px solid #ccc;padding:14px}#single-post h1{line-height:1.3em}.meta-bar{margin-bottom:1.3em}.entry table h4{font-size:1em;margin:0}.breakout h4{margin-bottom:3px}.entry .pagenav h3,.entry .pagenav h4{margin-top:.1em}#gallery-5 .gallery.gallery-size-thumbnail .gallery-icon img{border:1px solid #ccc}#single-post .archive-featured-image{text-align:center}</style>
+</head>
+<body>
+<div id="main-wrapper">
+<a name="top"></a>
+<div id="header-wrapper">
+<div id="header" class="container">
+<div id="logo" class="four columns">
+<a href="http://flowingdata.com/">
+<img src="http://flowingdata.com/wp-content/themes/fd-modern-5-4/images/logo-v2d.png"/>
+</a>
+</div>
+<div id="nav" class="eight columns">
+<ul>
+<li><a href="https://flowingdata.com/membership/">Membership</a></li>
+<li><a href="http://flowingdata.com/category/tutorials/">Tutorials</a></li>
+<li><a href="http://flowingdata.com/category/guides/">Guides</a></li>
+<li><a href="http://flowingdata.com/books/">Books</a></li>
+<li><a href="http://flowingdata.com/category/projects/">Features</a></li>
+</ul>
+</div>
+<div id="login" class="four columns">
+<ul>
+<li><a href="https://flowingdata.com/membership/" class="highlight">Become a Member</a></li>
+<li>&nbsp;|&nbsp;</li>
+<li><a href="https://flowingdata.com/wp-login.php">Log in</a></li>
+</ul>
+</div>
+</div> 
+</div> 
+<div id="content-wrapper" class="container">
+<div id="single-long-post" class="container archive-post">
+<div class="sixteen columns">
+<div class="meta-bar">
+Posted to <a href="http://flowingdata.com/category/tutorials/" rel="category tag">Tutorials</a> &nbsp;/&nbsp; Tags: <a href="http://flowingdata.com/tag/histogram/" rel="tag">histogram</a>, <a href="http://flowingdata.com/tag/r/" rel="tag">R</a> </div> 
+<div class="clr"></div>
+<h1>How to Read and Use Histograms in R</h1>
+</div>
+<div id="top-stuff" class="row">
+<div class="six columns">
+<div class="author">
+By <strong><a href="http://flowingdata.com/about-nathan" title="Visit Nathan Yau&#8217;s website" rel="author external">Nathan Yau</a></strong>
+</div> 
+<div id="lead-in-excerpt"><p>The chart type often goes overlooked because people don&#8217;t understand them. Maybe this will help.</p>
+</div>
+<div id="tut-meta">
+<div class="button-link"><a href="http://projects.flowingdata.com/tut/201402-histogram-tutorial.zip">Download Source</a></div>
+<div class="clr"></div>
+</div> 
+</div>
+<div class="nine columns offset-by-one">
+<img width="625" height="384" src="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/histogram-feature.png?fit=625%2C384" class="attachment-medium size-medium wp-post-image" alt="How to Read Histograms and Use Them in R" srcset="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/histogram-feature.png?w=625 625w, http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/histogram-feature.png?resize=210%2C129 210w" sizes="(max-width: 625px) 100vw, 625px"/> </div>
+<div class="clr"></div>
+</div> 
+<div class="entry ten columns">
+<p>The histogram is one of my favorite chart types, and for analysis purposes, I probably use them the most. Devised by <a href="http://en.wikipedia.org/wiki/Karl_Pearson">Karl Pearson</a> (the father of mathematical statistics) in the late 1800s, it&#8217;s simple geometrically, robust, and allows you to see the distribution of a dataset. </p>
+<p>If you don&#8217;t understand what&#8217;s driving the chart though, it can be confusing, which is probably why you don&#8217;t see it often in general publications.<br/>
+<span id="more-33969"></span></p>
+<h3>Not a bar chart</h3>
+<p><img src="http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/bar-chart-vs-histogram.png?resize=241%2C495" alt="Bar chart vs histogram" class="alignright size-full wp-image-33972" data-recalc-dims="1"/>One of the most common mistakes is to interpret histograms as if they were bar charts. This is understandable, as they&#8217;re visually similar. Both use bars placed side-by-side, and bar height is a main visual cue, but the small differences between them change interpretation significantly.</p>
+<p>The main difference, shown in the graphic on the right, is that bar charts show categorical data (and sometimes time series data), whereas histograms show a continuous variable on the horizontal axis. Also, the visual cue for a value in a bar char is bar height, whereas a histogram uses area i.e. width times height. </p>
+<p>This means you read the two chart types differently. The bar chart is for categories, and the histogram is for distributions. The latter lets you see the spread of a single variable, and it might skew to the left or right, clump in the middle, spike at low and high values, etc. Naturally, it varies by dataset.</p>
+<p><span class="tip">Although bar widths are typically the same width.</span>Finally, because histograms use area instead of height to represent values, the width of bars can vary. This is usually to see the long-tail better or to view dense areas with less noise. </p>
+<p>Main note: Bar charts and histograms are different. </p>
+<p>Now let&#8217;s look closer at the histogram to see how this works in practice.</p>
+<h3>Histogram deconstructed</h3>
+<p><span class="tip">For preservation, I&#8217;ve also included the data file in the download of this tutorial.</span>For a working example, we&#8217;ll look to the classic one: the height of a group of people. More specifically, the height of NBA basketball players of the 2013-14 season. The data is in a downloadable format at the end of <a href="http://www.besttickets.com/blog/unofficial-2013-nba-census/">a post by Best Tickets</a>.</p>
+<p>If you don&#8217;t have R downloaded and installed yet, now is a good time to do that. It&#8217;s free, it&#8217;s open source, and it&#8217;s a statistical computing language worth learning if you play with data a lot. <a href="http://www.r-project.org/">Download it here</a>.</p>
+<p><span class="tip">Also set your working directory to wherever you saved the code for this tutorial to.</span>Assuming you have the R console open, load the CSV file with <code>read.csv()</code>.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+# Load the data.
+players &lt;- read.csv(&quot;nba-players.csv&quot;, stringsAsFactors=FALSE)
+</pre>
+<p></p>
+<p>There are several variables including age, salary, and weight, but for the purposes of this tutorial, you&#8217;re only interested in height, which is the <code>Ht_inches</code> column.</p>
+<p>First a bar chart. It doesn&#8217;t make much sense to make one for all the players, but you can make one for just the players on the Golden State Warriors.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+warriors &lt;- subset(players, Team==&quot;Warriors&quot;)
+warriors.o &lt;- warriors[order(warriors$Ht_inches),]
+par(mar=c(5,10,5,5))
+barplot(warriors.o$Ht_inches, names.arg=warriors.o$Name, horiz=TRUE, border=NA, las=1, main=&quot;Heights of Golden State Warriors&quot;)
+</pre>
+<p>You get a bar chart that looks like the following:</p>
+<p><img src="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/01-Warriors-heights.png?resize=625%2C443" alt="01-Warriors heights" class="alignnone size-full wp-image-33975" srcset="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/01-Warriors-heights.png?w=625 625w, http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/01-Warriors-heights.png?resize=210%2C148 210w, http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/01-Warriors-heights.png?resize=620%2C439 620w" sizes="(max-width: 625px) 100vw, 625px" data-recalc-dims="1"/></p>
+<p>Similarly, you can make one for the average height of players, for each position.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+avgHeights &lt;- aggregate(Ht_inches ~ POS, data=players, mean)
+avgHeights.o &lt;- avgHeights[order(avgHeights$Ht_inches, decreasing=FALSE),]
+barplot(avgHeights.o$Ht_inches, names.arg=avgHeights.o$POS, border=NA, las=1)
+</pre>
+<p></p>
+<p><img src="http://i2.wp.com/flowingdata.com/wp-content/uploads/2014/02/02-Average-heights-by-position.png?resize=347%2C276" alt="02-Average heights by position" class="alignright size-full wp-image-33974" srcset="http://i2.wp.com/flowingdata.com/wp-content/uploads/2014/02/02-Average-heights-by-position.png?w=347 347w, http://i2.wp.com/flowingdata.com/wp-content/uploads/2014/02/02-Average-heights-by-position.png?resize=210%2C167 210w" sizes="(max-width: 347px) 100vw, 347px" data-recalc-dims="1"/>In the first bar chart, there&#8217;s a bar for each player, but this takes up a lot of space and is limited in the amount of information it shows. The second one only shows aggregates, and you miss out on variation within the groups.</p>
+<p>Let&#8217;s try a different route. Imagine you arranged players into several groups by height. There&#8217;s a group for every inch. That is, if someone is 78 inches tall, they go to the group where everyone else is 78 inches tall. Do that for every inch, and then arrange the groups in increasing order.</p>
+<p>You can kind of do this in graph form. But substitute the players with dots, one for each player.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+htrange &lt;- range(players$Ht_inches)	# 69 to 87 inches
+cnts &lt;- rep(0, 20)
+y &lt;- c()
+for (i in 1:length(players[,1])) {
+	
+	cntIndex &lt;- players$Ht_inches[i] - htrange[1] + 1
+	cnts[cntIndex] &lt;- cnts[cntIndex] + 1
+	y &lt;- c(y, cnts[cntIndex])
+
+}
+plot(players$Ht_inches, y, type=&quot;n&quot;, main=&quot;Player heights&quot;, xlab=&quot;inches&quot;, ylab=&quot;count&quot;)
+points(players$Ht_inches, y, pch=21, col=NA, bg=&quot;#999999&quot;)
+</pre>
+<p></p>
+<p>You get a chart that gives you a sense of how tall people are in the NBA. The bulk of people are in that 75- to 83-inch range, with fewer people in the super tall or relatively short range. For reference, <a href="http://en.wikipedia.org/wiki/Template:Average_height_around_the_world">the average height</a> of a man in the United States is 5 feet 10 inches.</p>
+<p><img src="http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/03-Player-dots.png?resize=625%2C616" alt="03-Player dots" class="alignnone size-medium wp-image-33977" id="dotheights" data-recalc-dims="1"/></p>
+<p>Or you can convert those dots to bars for each height.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+barplot(cnts, names.arg=69:88, main=&quot;Player heights&quot;, xlab=&quot;inches&quot;, ylab=&quot;count&quot;, border=NA, las=1)
+</pre>
+<p></p>
+<p>Notice that each bar represents the number of people who a certain height instead of the actual height of a player, like you saw at the beginning of this tutorial. Looks like you got yourself a histogram.</p>
+<p><img src="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/04-Player-heights-as-bars.png?resize=625%2C480" alt="04-Player heights as bars" class="alignnone size-medium wp-image-33978" data-recalc-dims="1"/></p>
+<h3>Make some histograms</h3>
+<p>You don&#8217;t have to actually count every player every time though. There&#8217;s a function in R, <code>hist()</code>, that can do that for you. Pass player heights into the first argument, and you&#8217;re good. You can also change the size of groups, or <em>bins</em>, as they&#8217;re called in stat lingo. Instead of a bin for every inch, you could make bins in five-inch intervals. For example, there could be a bin for 71 to 75 inches (inclusive) and another for 76 to 80. Again, the interval you choose depends on the data and how much variation you want to see.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+par(mfrow=c(1,3), mar=c(3,3,3,3))
+hist(players$Ht_inches, main=&quot;NBA Player Heights&quot;, xlab=&quot;inches&quot;, breaks=seq(65, 90, 1))
+hist(players$Ht_inches, main=&quot;NBA Player Heights&quot;, xlab=&quot;inches&quot;, breaks=seq(65, 90, 2))
+hist(players$Ht_inches, main=&quot;NBA Player Heights&quot;, xlab=&quot;inches&quot;, breaks=seq(65, 90, 5))
+</pre>
+<p></p>
+<p>This is how the same data can be showed in different ways.</p>
+<p><img src="http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/05-Histograms-with-different-bin-size.png?resize=625%2C264" alt="05-Histograms with different bin size" class="alignnone size-full wp-image-33980" srcset="http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/05-Histograms-with-different-bin-size.png?w=625 625w, http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/05-Histograms-with-different-bin-size.png?resize=210%2C88 210w, http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/05-Histograms-with-different-bin-size.png?resize=620%2C261 620w" sizes="(max-width: 625px) 100vw, 625px" data-recalc-dims="1"/></p>
+<p>If you recall, the width of bars doesn&#8217;t have to be uniform.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+par(mfrow=c(1,3), mar=c(3,3,3,3))
+hist(players$Ht_inches, main=&quot;NBA Player Heights&quot;, xlab=&quot;inches&quot;, breaks=c(seq(65, 75, 2), 80, 90))
+hist(players$Ht_inches, main=&quot;NBA Player Heights&quot;, xlab=&quot;inches&quot;, breaks=c(65, 75, seq(80, 90, 2)))
+hist(players$Ht_inches, main=&quot;NBA Player Heights&quot;, xlab=&quot;inches&quot;, breaks=c(65, seq(70, 80, 1), 90))
+</pre>
+<p></p>
+<p><img src="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/06-Varied-width.png?resize=625%2C288" alt="06-Varied width" class="alignnone size-medium wp-image-33990" data-recalc-dims="1"/></p>
+<p>I suggest you do this with care. For one, you might confuse some, and two, it&#8217;s possible you might obscure interesting parts in your data. Doesn&#8217;t hurt to try variations.</p>
+<p>Back to the beginning.</p>
+<p>You looked at average height per player. That was just one number to represent of bunch of players who played a position. The distribution for each position is more interesting.</p>
+<pre class="brush: r; title: ; notranslate" title="">
+par(mfrow=c(2,3), las=1, mar=c(5,5,4,1))
+positions &lt;- unique(players$POS)
+for (i in 1:length(positions)) {
+	currPlayers &lt;- subset(players, POS==positions[i])
+	hist(currPlayers$Ht_inches, main=positions[i], breaks=65:90, xlab=&quot;inches&quot;, border=&quot;#ffffff&quot;, col=&quot;#999999&quot;, lwd=0.4)
+}
+</pre>
+<p></p>
+<p>This provides a more specific view of player heights. For example, forward slash centers average over 80 inches tall, but there are many a few inches taller and a few inches shorter.</p>
+<p><img src="http://i0.wp.com/flowingdata.com/wp-content/uploads/2014/02/07-Compare-histograms.png?resize=625%2C320" alt="07-Compare histograms" class="alignnone size-medium wp-image-33983" data-recalc-dims="1"/></p>
+<p><span class="tip">Here&#8217;s <a href="http://flowingdata.com/2009/09/23/tv-size-over-the-past-8-years/">a finished graphic</a> with histograms arranged vertically, and here&#8217;s another with <a href="http://flowingdata.com/2010/06/28/do-movie-sequels-live-up-to-their-originals/">histograms flipped on their side</a>.</span>It can also help to arrange multiple histograms in a logical order for better comparison. Notice the consistent scale on the horizontal. By default, the horizontal axis spans the range of the dataset, but you can specify <code>breaks</code> in the <code>hist()</code> function, so that it&#8217;s consistent across all facets. The code below also adds a median line (for kicks).</p>
+<pre class="brush: r; title: ; notranslate" title="">
+par(mfrow=c(5,1), las=1, mar=c(5,5,4,1), xaxs=&quot;i&quot;, yaxs=&quot;i&quot;)
+for (i in 1:length(avgHeights.o$POS)) {
+	currPlayers &lt;- subset(players, POS==avgHeights.o$POS[i])
+	htMedian &lt;- median(currPlayers$Ht_inches)
+	h &lt;- hist(currPlayers$Ht_inches, main=avgHeights.o$POS[i], breaks=65:90, xlab=&quot;inches&quot;, border=NA, col=&quot;#999999&quot;, lwd=0.4)
+	maxFreq &lt;- max(h$counts)
+	segments(h$breaks, rep(0, length(h$breaks)), h$breaks, maxFreq, col=&quot;white&quot;)
+	
+	# Median line
+	lines(c(htMedian, htMedian), c(-1, maxFreq), col=&quot;purple&quot;, lwd=2)
+}
+</pre>
+<p></p>
+<p>The layout below does take up some space, but it&#8217;s useful when you explore your dataset.</p>
+<p><img src="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/08-Histograms-sorted.png?resize=348%2C927" alt="08-Histograms sorted" class="alignnone size-full wp-image-33982" srcset="http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/08-Histograms-sorted.png?w=348 348w, http://i1.wp.com/flowingdata.com/wp-content/uploads/2014/02/08-Histograms-sorted.png?resize=150%2C400 150w" sizes="(max-width: 348px) 100vw, 348px" data-recalc-dims="1"/></p>
+<h3>Wrapping up</h3>
+<p>Hopefully, this sheds a little bit of light on the classic statistical visualization. It takes some getting used to, especially if they&#8217;re brand new to you, but they can help you see a lot in your data, so it&#8217;s worth the tiny bit of trouble. Distributions are typically far more interesting than aggregates.</p>
+</div> 
+<div class="clr"></div>
+<div class="share"></div>
+<div class="author-info sixteen columns">
+<div class="profile-pic two columns alpha"><img alt='' src='http://1.gravatar.com/avatar/a61decc5c78c05770cb107e4c5cbbb33?s=100&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/a61decc5c78c05770cb107e4c5cbbb33?s=200&amp;d=identicon&amp;r=pg 2x' class='avatar avatar-100 photo' height='100' width='100'/></div>
+<div class="bio fourteen columns omega">
+<h3>About the Author</h3>
+<p>Nathan Yau is a statistician who works primarily with visualization. He earned his PhD in statistics from UCLA, is the author of two best-selling books — <em>Data Points</em> and <em>Visualize This</em> — and runs FlowingData. Introvert. Likes food. Likes beer. Follow him @<a href="http://twitter.com/flowingdata">flowingdata</a>.</p>
+</div>
+<div class="clr"></div>
+</div>
+<div id="join-now" class="sixteen columns row">
+<p><strong>Become a member.</strong> Learn to visualize your data. Support FlowingData.</p>
+<a href="https://flowingdata.com/membership/" class="action-button annual">Join Now</a>
+</div>
+<div id="unsubscribed" class="row" style="margin-bottom:0">
+<div class="seven columns offset-by-one">
+<h3>Membership</h3>
+<p>This is for people who want to learn to make and design data graphics. Your support goes directly to FlowingData, an independently run site.</p>
+</div>
+<div class="seven columns">
+<h3>What You Get</h3>
+<ul>
+<li>Instant access to tutorials on how to make and design data graphics</li>
+<li>Source code and files to use with your own data</li>
+<li>Four-week course on visualization in R</li>
+<li>Hand-picked links and resources from around the web</li>
+</ul>
+</div>
+<div class="clr"></div>
+</div> 
+<div class="clr"></div>
+<div class="eleven columns offset-by-two">
+<span id="comments"></span>
+</div>
+<div class="clr"></div>
+<div id="tutorials-list" class="container post-list across">
+<h3 class="toplevel sixteen columns">More Tutorials <a href="http://flowingdata.com/category/tutorials/">See All &rarr;</a></h3>
+<div class="archive-post four columns">
+<a href="http://flowingdata.com/2014/08/28/how-to-make-dot-density-maps-in-r/" rel="bookmark">
+<div class="archive-featured-image cropped">
+<img width="400" height="250" src="http://i2.wp.com/flowingdata.com/wp-content/uploads/2014/08/How-to-make-dot-density-maps.png?resize=400%2C250" class="attachment-archive-cropped size-archive-cropped wp-post-image" alt="How to make dot density maps"/> </div>
+<h4>How to Make Dot Density Maps in R</h4>
+<div class="excerpt"><p>Choropleth maps are useful to show values for areas on a map, but they can be limited. In contrast, dot density maps are sometimes better for showing distributions within regions.</p>
+</div>
+</a>
+</div> 
+<div class="archive-post four columns">
+<a href="http://flowingdata.com/2013/02/19/using-transparency-in-r-to-improve-clarity/" rel="bookmark">
+<div class="archive-featured-image cropped">
+<img width="400" height="250" src="http://i2.wp.com/flowingdata.com/wp-content/uploads/2013/02/Using-transparency.png?resize=400%2C250" class="attachment-archive-cropped size-archive-cropped wp-post-image" alt="Using transparency"/> </div>
+<h4>Using Transparency in R to Improve Clarity</h4>
+<div class="excerpt"><p>When you plot a lot of data at once, points and lines can obscure others and hide patterns. Transparency can help reveal what is really there.</p>
+</div>
+</a>
+</div> 
+<div class="archive-post four columns">
+<a href="http://flowingdata.com/2012/10/04/more-on-making-heat-maps-in-r/" rel="bookmark">
+<div class="archive-featured-image cropped">
+<img width="400" height="250" src="http://i2.wp.com/flowingdata.com/wp-content/uploads/2012/09/Points-per-shot-on-a-court.png?resize=400%2C250" class="attachment-archive-cropped size-archive-cropped wp-post-image" alt="Points per shot on a court" srcset="http://i2.wp.com/flowingdata.com/wp-content/uploads/2012/09/Points-per-shot-on-a-court.png?resize=400%2C250 400w, http://i2.wp.com/flowingdata.com/wp-content/uploads/2012/09/Points-per-shot-on-a-court.png?zoom=2&amp;resize=400%2C250 800w" sizes="(max-width: 400px) 100vw, 400px"/> </div>
+<h4>More on Making Heat Maps in R</h4>
+<div class="excerpt"><p>You saw how to make basic heat maps a while back, but you might want more flexibility for a specific data set. Once you understand the components of a heat map, the rest is straightforward.</p>
+</div>
+</a>
+</div> 
+<div class="archive-post four columns">
+<a href="http://flowingdata.com/2016/02/10/how-to-make-an-interactive-stacked-area-chart/" rel="bookmark">
+<div class="archive-featured-image cropped">
+<img width="400" height="250" src="http://i0.wp.com/flowingdata.com/wp-content/uploads/2016/02/stacked-area-featured.png?resize=400%2C250" class="attachment-archive-cropped size-archive-cropped wp-post-image" alt="Make an Interactive Stacked Area Chart" srcset="http://i0.wp.com/flowingdata.com/wp-content/uploads/2016/02/stacked-area-featured.png?resize=400%2C250 400w, http://i0.wp.com/flowingdata.com/wp-content/uploads/2016/02/stacked-area-featured.png?zoom=2&amp;resize=400%2C250 800w, http://i0.wp.com/flowingdata.com/wp-content/uploads/2016/02/stacked-area-featured.png?zoom=3&amp;resize=400%2C250 1200w" sizes="(max-width: 400px) 100vw, 400px"/> </div>
+<h4>How to Make an Interactive Stacked Area Chart</h4>
+<div class="excerpt"><p>Stacked area charts let you see categorical data over time. Interaction allows you to focus on specific categories without losing sight of the big picture.</p>
+</div>
+</a>
+</div> 
+</div>
+</div> 
+<div class="clr"></div>
+</div> 
+<div id="footer-wrapper">
+<div id="footer" class="container">
+<ul id="final-links">
+<li><a href="http://flowingdata.com/about">About</a></li>
+<li><a href="http://flowingdata.com/contact">Contact</a></li>
+<li><a href="http://flowingdata.com/sponsorship">Sponsorship</a></li>
+<li><a href="http://twitter.com/flowingdata">Twitter</a></li>
+<li><a href="http://facebook.com/flowingdata">Facebook</a></li>
+<li><a href="http://eepurl.com/icL0o">Newsletter</a></li>
+<li><a href="http://flowingdata.com/feed">RSS</a></li>
+</ul>
+<div id="bottom">Copyright &copy; 2007-Present FlowingData. All rights reserved. Be cool.</div>
+<div id="bottom-logo"><a href="http://flowingdata.com"><img src="http://flowingdata.com/wp-content/themes/fd-modern-5-4/images/logo-lone-v2d.png"/></a></div>
+</div> 
+</div> 
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-865100-4");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+<script type='text/javascript' src='http://flowingdata.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter2/scripts/shCore.js?ver=2.1.364'></script>
+<script type='text/javascript' src='http://flowingdata.com/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushR.js?ver=20100919'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://flowingdata.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter2/styles/shCore.css?ver=2.1.364";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://flowingdata.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter2/styles/shThemeEclipse.css?ver=2.1.364";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.clipboardSwf = 'http://flowingdata.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter2/scripts/clipboard.swf';
+	SyntaxHighlighter.config.strings.expandSource = 'show source';
+	SyntaxHighlighter.config.strings.viewSource = 'view source';
+	SyntaxHighlighter.config.strings.copyToClipboard = 'copy to clipboard';
+	SyntaxHighlighter.config.strings.copyToClipboardConfirmation = 'The code is in your clipboard now';
+	SyntaxHighlighter.config.strings.print = 'print';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['class-name'] = 'snippet';
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://flowingdata.com/wp-includes/js/comment-reply.min.js?ver=4.6'></script>
+<script type='text/javascript' src='http://flowingdata.com/wp-content/plugins/jetpack/modules/photon/photon.js?ver=20130122'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201633'></script>
+<script type='text/javascript' src='http://flowingdata.com/wp-includes/js/wp-embed.min.js?ver=4.6'></script>
+<script type='text/javascript' src='http://stats.wp.com/e-201633.js' async defer></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:4.2.2',blog:'1938889',post:'33969',tz:'-7',srv:'flowingdata.com'} ]);
+	_stq.push([ 'clickTrackerInit', '1938889', '33969' ]);
+</script>
+</body>
+</html>
+ 
+ 
+ 
+ 
+ 
